@@ -1,0 +1,31 @@
+{
+  "name": "@warren-bank/ca-dot-rtmp",
+  "description": "Generate a list of working RTMP traffic cam streams from the CA DOT.",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node bin/ca-dot-rtmp.js test/ca-dot-rtmp.txt"
+  },
+  "bin": {
+    "ca-dot-rtmp": "bin/ca-dot-rtmp.js"
+  },
+  "dependencies": {
+    "@warren-bank/node-request": "^2.0.12"
+  },
+  "license": "GPL-2.0",
+  "author": {
+    "name":   "Warren R. Bank",
+    "email":  "warren.r.bank@gmail.com",
+    "url":    "https://github.com/warren-bank"
+  },
+  "homepage": "https://github.com/warren-bank/node-list-all-working-CA-DOT-RTMP-traffic-cams",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warren-bank/node-list-all-working-CA-DOT-RTMP-traffic-cams"
+  },
+  "bugs": {
+    "url":    "https://github.com/warren-bank/node-list-all-working-CA-DOT-RTMP-traffic-cams/issues"
+  },
+  "keywords": [
+    "RTMP"
+  ]
+}
