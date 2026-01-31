@@ -1,7 +1,7 @@
 {
   "name": "@warren-bank/ca-dot-rtmp",
   "description": "Generate a list of working RTMP traffic cam streams from the CA DOT.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "test": "node bin/ca-dot-rtmp.js test/ca-dot-rtmp.txt"
   },

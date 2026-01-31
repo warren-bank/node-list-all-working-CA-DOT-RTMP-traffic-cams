@@ -10,9 +10,13 @@ const log = (...args) => {
     console.log(...args)
 }
 
-const output  = (process.argv.length < 3)
+const output = (process.argv.length < 3)
   ? path.join(process.cwd(), 'ca-dot-rtmp.txt')
   : path.resolve(process.argv[2])
+
+const region_id = (process.argv.length < 4)
+  ? null
+  : parseInt(process.argv[3], 10)
 
 const m3u8Urls = []
 const rtmpUrls = []
@@ -26,16 +30,41 @@ const isUrlOk = async function(url) {
   return false
 }
 
+const getTxtUrl = (rid) => `https://cwwp2.dot.ca.gov/data/d${rid}/cctv/cctvStatusD${(rid < 10) ? '0' : ''}${rid}.txt`
+
 const getM3u8Urls = async function() {
-  const txtUrl   = 'https://cwwp2.dot.ca.gov/data/d4/cctv/cctvStatusD04.txt'
-  let {response} = await request(txtUrl)
-  response = response.toString()
+  const txtUrls = []
+
+  if ((typeof region_id === 'number') && !isNaN(region_id)) {
+    txtUrls.push(
+      getTxtUrl(region_id)
+    )
+  }
+  else {
+    for (let i=1; i<=20; i++) {
+      txtUrls.push(
+        getTxtUrl(i)
+      )
+    }
+  }
 
   const m3u8UrlRegex = new RegExp('https://wzmedia\\.dot\\.ca\\.gov/[^/]+/[^/]+\\.stream/playlist\\.m3u8', 'g')
-  let match
-  while(match = m3u8UrlRegex.exec(response)) {
-    m3u8Urls.push(match[0])
-    log('m3u8:', match[0])
+
+  for (let txtUrl of txtUrls) {
+    try {
+      let {response} = await request(txtUrl)
+      response = response.toString()
+      log('200:', txtUrl)
+
+      let match
+      while(match = m3u8UrlRegex.exec(response)) {
+        m3u8Urls.push(match[0])
+        log('m3u8:', match[0])
+      }
+    }
+    catch(e) {
+      log('404:', txtUrl)
+    }
   }
 }
 
